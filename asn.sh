@@ -6,12 +6,12 @@ YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
 
 show_help() {
-    echo ""
-    echo "Usage: bash asn.sh -l 'company name' "
-    echo "Options:"
-    echo "-h                          Help Menu"
-    echo "-l <input name>             Specify the company name you want to find CIDR ranges. (e.g., bash asn.sh -l 'Disney')"
-    echo "-o <output file>            file to write output result."
+    echo "   Usage: bash asn.sh -l 'company name' "
+    echo "   Options:"
+    echo "   -h                          Help Menu"
+    echo "   -l <input name>             Specify the company name you want to find CIDR ranges. (e.g., bash asn.sh -l 'Disney')"
+    echo "   -o <output file>            file to write output result."
+    exit 0
 }
 
 cexit() {
@@ -39,12 +39,6 @@ while getopts ":l:o:h" opt; do
             ;;
     esac
 done
-
-if [ -z "$input_name" ]; then
-    echo -e "${RED}Error: Enter Correct input.${NC}"
-    show_help
-    exit 0
-fi
 
 echo -e "${YELLOW}[!] Finding ASN to "$input_name"${NC}";
 
