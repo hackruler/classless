@@ -1,4 +1,4 @@
-#It finds the CIDR ranges associated with the company through ASN
+#!/bin/bash
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -50,7 +50,7 @@ echo -e "${YELLOW}[!] Finding ASN to "$input_name"${NC}";
 
 curl -s -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0" https://bgp.he.net/search\?search%5Bsearch%5D=${input_name}\&output=json | grep '<td><a href="/AS' | cut -d '=' -f2 | cut -d '"' -f2 | sed 's/\///g' | tee asn.txt > /dev/null;
 
-echo -e "${GREEN}[*]" $(cat asn.txt | wc -l) "ASN found to "$input_word"${NC}";
+echo -e "${GREEN}[*]" $(cat asn.txt | wc -l) "ASN found${NC}";
 echo -e "${YELLOW}[!] Finding CIDR ranges respective to ASN. ${NC}";
 
 
@@ -70,5 +70,5 @@ if [ -z "$output_file" ]; then
     echo -e "${GREEN}[*] ........... SCRIPT ENDED .................${NC}"
 else
     echo -e "${GREEN}[*] CIDR ranges are stored in "$output_file"${NC}"
-    echo -e "${GREEN}[**]" $(cat "$output_file" | wc -l)" IP's giving any response on the browser.${NC}";
+    echo -e "${GREEN}[**]" $(cat "$output_file" | wc -l)" CIDR ranges found.${NC}";
 fi
