@@ -16,7 +16,6 @@ show_help() {
 
 cexit() {
     echo -e "${RED}[!] Script interrupted. Exiting...${NC}"
-    [ -e asn.txt ] && rm -f asn.txt
     exit "$1"
 }
 
@@ -57,8 +56,6 @@ else
     	curl -s -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0" https://bgp.he.net/${cidr}#_prefixes\&output=json | grep '<a href="/net' | cut -d '=' -f2 | cut -d '"' -f2 | sed 's/\/net\///g' | grep '\.' | tee -a "$output_file" > /dev/null
     done
 fi
-
-rm asn.txt;
 
 if [ -z "$output_file" ]; then
     echo -e "${GREEN}[*] ........... SCRIPT ENDED .................${NC}"
