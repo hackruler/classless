@@ -64,7 +64,8 @@ fi
 
 if [ "$asn_only" = true ]; then
     [ -n "$output_file" ] && echo -e "${GREEN}[**]" $(cat "$output_file" | wc -l)" ASN found.${NC}"
-else
+fi
+if [ "$cidr_only" = true ]; then
     rm asn_results123.txt
     [ -n "$output_file" ] && echo -e "${GREEN}[**]" $(cat "$output_file" | wc -l)" CIDR Ranges found.${NC}";
 fi
