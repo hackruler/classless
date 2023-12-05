@@ -18,7 +18,6 @@ show_help() {
 
 cexit() {
     echo -e "${RED}[!] Script interrupted. Exiting...${NC}"
-    [ -e asn_results123.txt ] && rm -f asn_results123.txt
     exit "$1"
 }
 
@@ -54,18 +53,16 @@ fi
 
 if [ "$cidr_only" = true ]; then
     echo -e "${YELLOW}[!] Finding CIDR ranges for "$input_name"${NC}";
-    curl -s -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0" https://bgp.he.net/search\?search%5Bsearch%5D=${input_name}\&output=json | grep '<td><a href="/AS' | cut -d '=' -f2 | cut -d '"' -f2 | sed 's/\///g' | tee -a asn_results123.txt > /dev/null; 
-
-    for cidr in $(cat asn_results123.txt); do
-        curl -s -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0" https://bgp.he.net/${cidr}\#_prefixes\&output=json | grep '<a href="/net' | cut -d '=' -f2 | cut -d '"' -f2 | sed 's/\/net\///g' | grep '\.' | { [ -z "$output_file" ] && cat || anew "$output_file" > /dev/null; };
+    
+    for cidr in $(curl -s -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0" "https://bgp.he.net/search?search%5Bsearch%5D=${input_name}&output=json" | grep '<td><a href="/AS' | cut -d '=' -f2 | cut -d '"' -f2 | sed 's/\///g'); do
+        curl -s -H "User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/115.0" "https://bgp.he.net/${cidr}#_prefixes&output=json" | grep '<a href="/net' | cut -d '=' -f2 | cut -d '"' -f2 | sed 's/\/net\///g' | grep '\.' | { [ -z "$output_file" ] && cat || anew "$output_file" > /dev/null; }
     done
-
 fi
+
 
 if [ "$asn_only" = true ]; then
     [ -n "$output_file" ] && echo -e "${GREEN}[**]" $(cat "$output_file" | wc -l)" ASN found.${NC}"
 fi
 if [ "$cidr_only" = true ]; then
-    rm asn_results123.txt
     [ -n "$output_file" ] && echo -e "${GREEN}[**]" $(cat "$output_file" | wc -l)" CIDR Ranges found.${NC}";
 fi
