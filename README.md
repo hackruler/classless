@@ -1,6 +1,6 @@
 # classless
 
-It finds the CIDR ranges associated with the company through ASN using comapny name.
+It finds ASN and CIDR ranges associated with the company.
 
 # Installation
 
