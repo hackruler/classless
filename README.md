@@ -10,8 +10,5 @@ It finds the CIDR ranges associated with the company through ASN using comapny n
 
 # Usage
 
-`bash asn.sh -l '<company name>'`
+`bash classless.sh [options] '<company name>'`
 
-# Example 
-
-![image](https://github.com/hackruler/classless/assets/82742964/cf75c0e9-7fbb-461d-8586-59a57bd7d03c)
